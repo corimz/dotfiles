@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -e
+
+sudo add-apt-repository ppa:git-core/ppa -y
+sudo apt update 
+sudo apt install -y git
+sudo apt install -y neofetch
+sudo apt install -y neovim
+
+git config --global user.email "corimroz@gmail.com"
+git config --global user.name "Cori"
+git config --global push.autoSetupRemote true
+git config --global credential.helper store
+
+ln -sf "$PWD/.bashrc" "$HOME/.bashrc"
+ln -sf "$PWD/.vimrc" "$HOME/.vimrc"
+ln -sf "$PWD/.inputrc" "$HOME/.inputrc"
+ln -sf "$PWD/.tmux.conf" "$HOME/.tmux.conf"
+
+mkdir -p "$HOME/.config" || true
+ln -sf "$PWD/nvim" "$HOME/.config"
+
+##### Install Go #####
+sudo rm -rf /usr/local/go
+wget https://go.dev/dl/go1.23.0.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.23.0.linux-amd64.tar.gz
+rm go1.23.0.linux-amd64.tar.gz
+
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
